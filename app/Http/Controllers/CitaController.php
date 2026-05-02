@@ -6,7 +6,7 @@ use App\Models\Cita;
 use App\Models\Servicio;
 use App\Models\User; 
 use Illuminate\Http\Request;
-use Carbon\Carbon; // <--- Esto quita el error de la primera imagen
+use Carbon\Carbon; 
 
 class CitaController extends Controller
 {
@@ -15,7 +15,6 @@ class CitaController extends Controller
      */
     public function index(Request $request)
     {
-        // Usar $request->user() evita el error visual de la segunda imagen
         $usuarioLogueado = $request->user();
 
         if ($usuarioLogueado->role === 'admin') {
@@ -72,7 +71,6 @@ class CitaController extends Controller
             return back()->withErrors(['fecha_cita' => 'Cerramos los fines de semana.'])->withInput();
         }
 
-        // --- GUARDADO ---
         Cita::create([
             'cliente' => $request->cliente,
             'servicio_id' => $request->servicio_id,

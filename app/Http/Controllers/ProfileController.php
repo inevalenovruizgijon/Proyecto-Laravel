@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cita;
 use App\Models\Servicio;
 use Illuminate\Http\Request;
-use Carbon\Carbon; // IMPORTANTE: Para manejar fechas y horas
+use Carbon\Carbon; 
 
 class CitaController extends Controller
 {
@@ -32,7 +32,7 @@ class CitaController extends Controller
      */
     public function store(Request $request)
     {
-        // 1. Validación básica de campos
+        //Validación básica de campos
         $request->validate([
             'cliente' => 'required|string|max:255',
             'servicio_id' => 'required|exists:servicios,id',
@@ -42,17 +42,17 @@ class CitaController extends Controller
         $fechaCita = Carbon::parse($request->fecha_cita);
         $hora = $fechaCita->format('H:i');
 
-        // 2. Validación: No permitir fechas pasadas
+        //Validación: No permitir fechas pasadas
         if ($fechaCita->isPast()) {
             return back()->withErrors(['fecha_cita' => 'No puedes pedir una cita en una fecha o hora que ya ha pasado.'])->withInput();
         }
 
-        // 3. Validación: Máximo un año de antelación
+        //Validación: Máximo un año de antelación
         if ($fechaCita->gt(now()->addYear())) {
             return back()->withErrors(['fecha_cita' => 'Solo puedes reservar con un máximo de un año de antelación.'])->withInput();
         }
 
-        // 4. Validación: Horario comercial (9:30-13:30 y 17:30-20:00)
+        //Validación: Horario comercial (9:30-13:30 y 17:30-20:00)
         $esHorarioMañana = ($hora >= '09:30' && $hora <= '13:30');
         $esHorarioTarde = ($hora >= '17:30' && $hora <= '20:00');
 
@@ -60,12 +60,12 @@ class CitaController extends Controller
             return back()->withErrors(['fecha_cita' => 'La hora seleccionada está fuera del horario: 9:30-13:30 o 17:30-20:00.'])->withInput();
         }
 
-        // 5. Opcional: Bloquear Fines de Semana (Sábado y Domingo)
+        //Opcional: Bloquear Fines de Semana (Sábado y Domingo)
         if ($fechaCita->isWeekend()) {
             return back()->withErrors(['fecha_cita' => 'Lo sentimos, la barbería está cerrada los fines de semana.'])->withInput();
         }
 
-        // Guardar en la base de datos
+        //Guardar en la base de datos
         Cita::create([
             'cliente' => $request->cliente,
             'servicio_id' => $request->servicio_id,

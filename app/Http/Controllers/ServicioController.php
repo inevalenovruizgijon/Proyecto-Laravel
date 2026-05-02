@@ -16,6 +16,4 @@ class ServicioController extends Controller
         return view('servicios.index', compact('servicios'));
     }
 
-    // Los demás métodos los puedes dejar vacíos por ahora si no vas 
-    // a crear una pantalla para añadir servicios nuevos desde la web.
 }

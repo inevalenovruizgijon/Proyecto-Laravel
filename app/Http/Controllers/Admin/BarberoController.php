@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin; // Verifica que sea Admin si está en esa carpeta
+namespace App\Http\Controllers\Admin; 
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,22 +9,16 @@ use Illuminate\Support\Facades\Hash;
 
 class BarberoController extends Controller
 {
-    /**
-     * Muestra la lista de barberos y el formulario.
-     * ESTA ES LA FUNCIÓN QUE TE FALTA
-     */
+    //Muestra la lista de barberos y el formulario.
     public function index()
     {
         // Obtenemos todos los usuarios que tienen el rol de barbero
         $barberos = User::where('role', 'barbero')->get();
 
-        // Retornamos la vista (asegúrate de que el archivo exista en resources/views/admin/barberos/index.blade.php)
         return view('admin.barberos.index', compact('barberos'));
     }
 
-    /**
-     * Guarda un nuevo barbero.
-     */
+    //Guarda un nuevo barbero.
     public function store(Request $request)
     {
         $request->validate([
