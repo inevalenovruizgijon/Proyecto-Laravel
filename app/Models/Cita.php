@@ -4,16 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User; // <--- ESTA LÍNEA ES IMPORTANTE
+use App\Models\User; 
 
 class Cita extends Model
 {
     use HasFactory;
 
-    /**
-     * Campos que se pueden llenar masivamente.
-     * Hemos añadido 'user_id' para vincular la cita con un barbero.
-     */
     protected $fillable = [
         'cliente', 
         'servicio_id', 
@@ -23,7 +19,6 @@ class Cita extends Model
 
     /**
      * Relación: Una cita pertenece a un Barbero (Usuario).
-     * Esto soluciona el error "undefined method user".
      */
     public function user()
     {
